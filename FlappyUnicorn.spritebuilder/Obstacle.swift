@@ -11,7 +11,11 @@ import Foundation
 class Obstacle: CCSprite {
     
     func didLoadFromCCB() {
-        
+        position.y = genRandYObstaclePos()
     }
     
+    func genRandYObstaclePos() -> CGFloat {
+        return CGFloat(arc4random_uniform(408) + 80)
+    }
+
 }

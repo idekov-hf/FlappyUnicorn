@@ -122,9 +122,9 @@
 						<string>Color3</string>
 						<key>value</key>
 						<array>
-							<real>0.57647061347961426</real>
-							<real>0.3333333432674408</real>
-							<real>0.90980398654937744</real>
+							<real>0.59607845544815063</real>
+							<real>0.27450981736183167</real>
+							<real>0.91372555494308472</real>
 							<real>1</real>
 						</array>
 					</dict>
@@ -137,12 +137,10 @@
 						<real>1</real>
 					</dict>
 				</array>
-				<key>selected</key>
-				<true/>
 			</dict>
 		</array>
 		<key>customClass</key>
-		<string></string>
+		<string>Character</string>
 		<key>displayName</key>
 		<string>CCSprite</string>
 		<key>memberVarAssignmentName</key>
@@ -176,40 +174,40 @@
 			<key>points</key>
 			<array>
 				<array>
-					<real>0.0</real>
-					<real>0.0</real>
+					<real>-0.16076439619064331</real>
+					<real>3.1605978012084961</real>
 				</array>
 				<array>
-					<real>0.0</real>
-					<real>24</real>
+					<real>-0.16076439619064331</real>
+					<real>21.2618408203125</real>
 				</array>
 				<array>
-					<real>24</real>
-					<real>24</real>
+					<real>21.928655624389648</real>
+					<real>21.2618408203125</real>
 				</array>
 				<array>
-					<real>24</real>
-					<real>0.0</real>
+					<real>21.928655624389648</real>
+					<real>3.1605978012084961</real>
 				</array>
 			</array>
 			<key>polygons</key>
 			<array>
 				<array>
 					<array>
-						<real>24</real>
-						<real>0.0</real>
+						<real>21.928655624389648</real>
+						<real>3.1605978012084961</real>
 					</array>
 					<array>
-						<real>24</real>
-						<real>24</real>
+						<real>21.928655624389648</real>
+						<real>21.2618408203125</real>
 					</array>
 					<array>
-						<real>0.0</real>
-						<real>24</real>
+						<real>-0.16076439619064331</real>
+						<real>21.2618408203125</real>
 					</array>
 					<array>
-						<real>0.0</real>
-						<real>0.0</real>
+						<real>-0.16076439619064331</real>
+						<real>3.1605978012084961</real>
 					</array>
 				</array>
 			</array>
@@ -306,6 +304,8 @@
 				<array/>
 			</dict>
 		</array>
+		<key>selected</key>
+		<true/>
 	</dict>
 	<key>notes</key>
 	<array/>
