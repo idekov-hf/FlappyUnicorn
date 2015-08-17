@@ -2,12 +2,17 @@ import Foundation
 
 class MainScene: CCNode, CCPhysicsCollisionDelegate {
     
+    let defaults = NSUserDefaults.standardUserDefaults()
+    
     // code connections
     weak var character: Character!
     weak var obstaclesNode: CCNode!
     weak var gamePhysicsNode: CCPhysicsNode!
     weak var scoreLabel: CCLabelTTF!
     weak var restartButton: CCButton!
+    weak var gameOverNode: CCNode!
+    weak var gameOverScoreLabel: CCLabelTTF!
+    weak var bestScoreLabel: CCLabelTTF!
     
     // obstacle variables
     var obstacleArray: [Obstacle] = [] // var obstacleArray = [Obstacle]()
@@ -24,6 +29,7 @@ class MainScene: CCNode, CCPhysicsCollisionDelegate {
         didSet {
             animationManager.runAnimationsForSequenceNamed("ScoreIncreased")
             scoreLabel.string = "\(score)"
+            gameOverScoreLabel.string = "\(score)"
         }
     }
     
@@ -119,6 +125,15 @@ class MainScene: CCNode, CCPhysicsCollisionDelegate {
         CCDirector.sharedDirector().presentScene(CCBReader.loadAsScene("MainScene"))
     }
     
+    func setHighScore() {
+        var highscore = defaults.integerForKey("highscore")
+        if score > highscore {
+            defaults.setInteger(score, forKey: "highscore")
+        }
+        var newHighscore = NSUserDefaults.standardUserDefaults().integerForKey("highscore")
+        bestScoreLabel.string = "\(newHighscore)"
+    }
+    
     // collision handling functions
     func ccPhysicsCollisionBegin(pair: CCPhysicsCollisionPair!, character: CCNode!, goal: CCNode!) -> ObjCBool {
         goal.removeFromParent()
@@ -128,7 +143,9 @@ class MainScene: CCNode, CCPhysicsCollisionDelegate {
     
     func ccPhysicsCollisionBegin(pair: CCPhysicsCollisionPair!, character: CCNode!, obstacle: CCNode!) -> ObjCBool {
         gameOver = true
-        restartButton.visible = true
+        setHighScore()
+        scoreLabel.visible = false
+        gameOverNode.visible = true
         return true
     }
 }
