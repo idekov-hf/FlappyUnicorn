@@ -157,7 +157,7 @@
 								<string>Size</string>
 								<key>value</key>
 								<array>
-									<real>20</real>
+									<real>15</real>
 									<real>80</real>
 									<integer>0</integer>
 									<integer>0</integer>
@@ -170,7 +170,7 @@
 								<string>Point</string>
 								<key>value</key>
 								<array>
-									<real>0.5</real>
+									<real>0.0</real>
 									<real>0.5</real>
 								</array>
 							</dict>
@@ -188,6 +188,8 @@
 								</array>
 							</dict>
 						</array>
+						<key>selected</key>
+						<true/>
 					</dict>
 				</array>
 				<key>customClass</key>
@@ -510,8 +512,6 @@
 						<real>1</real>
 					</dict>
 				</array>
-				<key>selected</key>
-				<true/>
 			</dict>
 		</array>
 		<key>customClass</key>

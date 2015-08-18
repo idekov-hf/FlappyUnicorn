@@ -18,7 +18,7 @@ class MainScene: CCNode, CCPhysicsCollisionDelegate {
     var obstacleArray: [Obstacle] = [] // var obstacleArray = [Obstacle]()
     var obstacleWidth: CGFloat = 30
     var initialObstacleXPos: CGFloat = 300
-    var spaceBetweenObstacles: CGFloat = 150
+    var spaceBetweenObstacles: CGFloat = 160
     var obstacleScrollSpeed: CGFloat = 80
     
     var screenHeight = CCDirector.sharedDirector().viewSize().height
