@@ -14,9 +14,12 @@ class MainScene: CCNode, CCPhysicsCollisionDelegate {
     weak var gameOverScoreLabel: CCLabelTTF!
     weak var bestScoreLabel: CCLabelTTF!
     weak var mainMenuNode: CCNode!
+    weak var ground1: CCNodeColor!
+    weak var ground2: CCNodeColor!
     
     // obstacle variables
     var obstacleArray: [Obstacle] = [] // var obstacleArray = [Obstacle]()
+    var groundArray: [CCNode] = []
     var obstacleWidth: CGFloat = 30
     var initialObstacleXPos: CGFloat = 300
     var spaceBetweenObstacles: CGFloat = 160
@@ -27,6 +30,8 @@ class MainScene: CCNode, CCPhysicsCollisionDelegate {
     var gameOver: Bool = false
     var characterInScreen: Bool = true
     var mainMenu: Bool = true
+    var obstacleWasHit: Bool = false
+    var groundWasHit: Bool = false
     var score: Int = 0 {
         didSet {
             animationManager.runAnimationsForSequenceNamed("ScoreIncreased")
@@ -40,12 +45,14 @@ class MainScene: CCNode, CCPhysicsCollisionDelegate {
         userInteractionEnabled = true
         gamePhysicsNode.collisionDelegate = self
         setCharacterPhysicsProperties(false)
+        groundArray.append(ground1)
+        groundArray.append(ground2)
         loadObstacles(3)
     }
     
     // override touch controls
     override func touchBegan(touch: CCTouch!, withEvent event: CCTouchEvent!) {
-        if !gameOver && characterInScreen {
+        if !gameOver && characterInScreen && !mainMenu {
             character.physicsBody.applyImpulse(CGPoint(x: 0, y: 200))
             character.physicsBody.applyAngularImpulse(8000)
             sinceTouch = 0
@@ -54,57 +61,69 @@ class MainScene: CCNode, CCPhysicsCollisionDelegate {
     
     // used to update the positions of the obstacles on the screen
     override func update(delta: CCTime) {
-        if !gameOver && !mainMenu{
-            sinceTouch += delta
-            
-            character.position.x = 60
-
-            if character.position.y < 1 {
-                // clamp vertical velocity
-                characterInScreen = true
-                let velocityY = clampf(Float(character.physicsBody.velocity.y), -Float(CGFloat.max), 200)
-                character.physicsBody.velocity = CGPoint(x: 0, y: CGFloat(velocityY))
+        if !gameOver {
+            if !mainMenu {
+                sinceTouch += delta
                 
-            }
-            else {
-                characterInScreen = false
-                character.physicsBody.velocity.y = -40
+                character.position.x = 60
+
+                if character.position.y < 1 {
+                    // clamp vertical velocity
+                    characterInScreen = true
+                    let velocityY = clampf(Float(character.physicsBody.velocity.y), -Float(CGFloat.max), 200)
+                    character.physicsBody.velocity = CGPoint(x: 0, y: CGFloat(velocityY))
+                    
+                }
+                else {
+                    characterInScreen = false
+                    character.physicsBody.velocity.y = -40
+                }
+                
+                // clamp character rotation
+                character.rotation = clampf(character.rotation, -30, 80)
+                if character.physicsBody.allowsRotation {
+                    let angularVelocity = clampf(Float(character.physicsBody.angularVelocity), -2, 1)
+                    character.physicsBody.angularVelocity = CGFloat(angularVelocity)
+                }
+                
+                // apply strong downward rotation impulse if the
+                // player hasn't touched the screen in 0.4 seconds
+                if sinceTouch > 0.35 {
+                    let impulse = -1000.0 * delta
+                    character.physicsBody.applyAngularImpulse(CGFloat(impulse))
+                }
+                
+                // move all the obstacles backwards
+                for obstacle in obstacleArray {
+                    obstacle.position.x -= obstacleScrollSpeed * CGFloat(delta)
+                }
+                
+                // generate a new obstacle when the first 
+                // obstacle in the array leaves the scene
+                if obstacleArray.first!.position.x <= -obstacleWidth/2 {
+                    generateNewObstacle()
+                }
             }
             
-            // clamp character rotation
-            character.rotation = clampf(character.rotation, -30, 80)
-            if character.physicsBody.allowsRotation {
-                let angularVelocity = clampf(Float(character.physicsBody.angularVelocity), -2, 1)
-                character.physicsBody.angularVelocity = CGFloat(angularVelocity)
-            }
-            
-            // apply strong downward rotation impulse if the
-            // player hasn't touched the screen in 0.4 seconds
-            if sinceTouch > 0.35 {
-                let impulse = -1000.0 * delta
-                character.physicsBody.applyAngularImpulse(CGFloat(impulse))
-            }
-            
-            // move all the obstacles backwards
-            for obstacle in obstacleArray {
-                obstacle.position.x -= obstacleScrollSpeed * CGFloat(delta)
-            }
-            
-            // generate a new obstacle when the first 
-            // obstacle in the array leaves the scene
-            if obstacleArray.first!.position.x <= -obstacleWidth/2 {
-                generateNewObstacle()
+            for ground in groundArray {
+                ground.positionInPoints.x -= obstacleScrollSpeed * CGFloat(delta)
+                if ground.positionInPoints.x < -ground.contentSizeInPoints.width {
+                    ground.positionInPoints.x = ground.contentSizeInPoints.width
+                }
             }
         }
         else {
             character.physicsBody.velocity.x = 0
+            character.rotation += 5 * Float(delta)
+            character.rotation = clampf(character.rotation, -30, 90)
+            let angularVelocity = clampf(Float(character.physicsBody.angularVelocity), -2, 5)
+            character.physicsBody.angularVelocity = CGFloat(angularVelocity)
         }
     }
         
     // load initial obstacles that are evenly spaced and have random y positions
     func loadObstacles(number: Int) {
         for i in 0..<number {
-            println(i)
             var obstacle = CCBReader.load("Obstacle") as! Obstacle
             obstacle.position.x = initialObstacleXPos + CGFloat(i) * spaceBetweenObstacles
             obstaclesNode.addChild(obstacle)
@@ -129,10 +148,12 @@ class MainScene: CCNode, CCPhysicsCollisionDelegate {
     
     // play button selector
     func play() {
+//        animationManager.runAnimationsForSequenceNamed("Default")
         mainMenuNode.visible = false
         scoreLabel.visible = true
         setCharacterPhysicsProperties(true)
         mainMenu = false
+        
     }
     
     // set high score
@@ -145,9 +166,17 @@ class MainScene: CCNode, CCPhysicsCollisionDelegate {
         bestScoreLabel.string = "\(newHighscore)"
     }
     
+    // toggle gravity and rotation for character
     func setCharacterPhysicsProperties(trueOrFalse: Bool) {
         character.physicsBody.affectedByGravity = trueOrFalse
         character.physicsBody.allowsRotation = trueOrFalse
+    }
+    
+    func loadGameOver() {
+        gameOver = true
+        setHighScore()
+        scoreLabel.visible = false
+        gameOverNode.visible = true
     }
     
     // collision handling functions
@@ -158,10 +187,14 @@ class MainScene: CCNode, CCPhysicsCollisionDelegate {
     }
     
     func ccPhysicsCollisionBegin(pair: CCPhysicsCollisionPair!, character: CCNode!, obstacle: CCNode!) -> ObjCBool {
-        gameOver = true
-        setHighScore()
-        scoreLabel.visible = false
-        gameOverNode.visible = true
+        loadGameOver()
+        obstacleWasHit = true
+        return true
+    }
+    
+    func ccPhysicsCollisionBegin(pair: CCPhysicsCollisionPair!, character: CCNode!, ground: CCNode!) -> ObjCBool {
+        loadGameOver()
+        groundWasHit = true
         return true
     }
 }

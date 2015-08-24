@@ -10,7 +10,7 @@
 		<false/>
 	</dict>
 	<key>UUID</key>
-	<integer>28</integer>
+	<integer>30</integer>
 	<key>centeredOrigin</key>
 	<false/>
 	<key>currentResolution</key>
@@ -243,7 +243,7 @@
 					</dict>
 					<dict>
 						<key>UUID</key>
-						<integer>6</integer>
+						<integer>29</integer>
 						<key>baseClass</key>
 						<string>CCBFile</string>
 						<key>children</key>
@@ -251,7 +251,7 @@
 						<key>customClass</key>
 						<string></string>
 						<key>displayName</key>
-						<string>character</string>
+						<string>character </string>
 						<key>memberVarAssignmentName</key>
 						<string>character</string>
 						<key>memberVarAssignmentType</key>
@@ -302,6 +302,10 @@
 								<string>Character.ccb</string>
 							</dict>
 						</array>
+						<key>selected</key>
+						<true/>
+						<key>seqExpanded</key>
+						<true/>
 					</dict>
 					<dict>
 						<key>UUID</key>
@@ -315,7 +319,7 @@
 						<key>displayName</key>
 						<string>ground1</string>
 						<key>memberVarAssignmentName</key>
-						<string></string>
+						<string>ground1</string>
 						<key>memberVarAssignmentType</key>
 						<integer>1</integer>
 						<key>physicsBody</key>
@@ -331,7 +335,7 @@
 							<key>collisionMask</key>
 							<array/>
 							<key>collisionType</key>
-							<string>obstacle</string>
+							<string>ground</string>
 							<key>cornerRadius</key>
 							<real>0.0</real>
 							<key>density</key>
@@ -400,7 +404,7 @@
 								<string>Position</string>
 								<key>value</key>
 								<array>
-									<real>1</real>
+									<real>0.0</real>
 									<real>0.0</real>
 									<integer>0</integer>
 									<integer>2</integer>
@@ -427,7 +431,7 @@
 								<string>Point</string>
 								<key>value</key>
 								<array>
-									<real>1</real>
+									<real>0.0</real>
 									<real>0.0</real>
 								</array>
 							</dict>
@@ -479,7 +483,7 @@
 						<key>displayName</key>
 						<string>ground2</string>
 						<key>memberVarAssignmentName</key>
-						<string></string>
+						<string>ground2</string>
 						<key>memberVarAssignmentType</key>
 						<integer>1</integer>
 						<key>physicsBody</key>
@@ -495,7 +499,7 @@
 							<key>collisionMask</key>
 							<array/>
 							<key>collisionType</key>
-							<string>obstacle</string>
+							<string>ground</string>
 							<key>cornerRadius</key>
 							<real>0.0</real>
 							<key>density</key>
@@ -564,7 +568,7 @@
 								<string>Position</string>
 								<key>value</key>
 								<array>
-									<real>2</real>
+									<real>1</real>
 									<real>0.0</real>
 									<integer>0</integer>
 									<integer>2</integer>
@@ -591,7 +595,7 @@
 								<string>Point</string>
 								<key>value</key>
 								<array>
-									<real>1</real>
+									<real>0.0</real>
 									<real>0.0</real>
 								</array>
 							</dict>
@@ -3035,7 +3039,7 @@
 								<string>Position</string>
 								<key>value</key>
 								<array>
-									<real>0.25</real>
+									<real>0.32187500596046448</real>
 									<real>0.30000001192092896</real>
 									<integer>0</integer>
 									<integer>2</integer>
@@ -3910,42 +3914,6 @@
 			<real>512</real>
 			<key>sequenceId</key>
 			<integer>1</integer>
-			<key>soundChannel</key>
-			<dict>
-				<key>isExpanded</key>
-				<false/>
-				<key>keyframes</key>
-				<array/>
-				<key>type</key>
-				<integer>11</integer>
-			</dict>
-		</dict>
-		<dict>
-			<key>autoPlay</key>
-			<false/>
-			<key>callbackChannel</key>
-			<dict>
-				<key>keyframes</key>
-				<array/>
-				<key>type</key>
-				<integer>12</integer>
-			</dict>
-			<key>chainedSequenceId</key>
-			<integer>-1</integer>
-			<key>length</key>
-			<real>10</real>
-			<key>name</key>
-			<string>GameOver</string>
-			<key>offset</key>
-			<real>0.0</real>
-			<key>position</key>
-			<real>0.0</real>
-			<key>resolution</key>
-			<real>30</real>
-			<key>scale</key>
-			<real>128</real>
-			<key>sequenceId</key>
-			<integer>2</integer>
 			<key>soundChannel</key>
 			<dict>
 				<key>isExpanded</key>
