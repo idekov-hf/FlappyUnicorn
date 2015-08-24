@@ -13,6 +13,7 @@ class MainScene: CCNode, CCPhysicsCollisionDelegate {
     weak var gameOverNode: CCNode!
     weak var gameOverScoreLabel: CCLabelTTF!
     weak var bestScoreLabel: CCLabelTTF!
+    weak var mainMenuNode: CCNode!
     
     // obstacle variables
     var obstacleArray: [Obstacle] = [] // var obstacleArray = [Obstacle]()
@@ -35,7 +36,6 @@ class MainScene: CCNode, CCPhysicsCollisionDelegate {
     
     // create obstacles when MainScene is loaded
     func didLoadFromCCB() {
-        println(screenHeight)
         userInteractionEnabled = true
         gamePhysicsNode.collisionDelegate = self
         loadObstacles(3)
@@ -123,6 +123,12 @@ class MainScene: CCNode, CCPhysicsCollisionDelegate {
     // restart button selector
     func restart() {
         CCDirector.sharedDirector().presentScene(CCBReader.loadAsScene("MainScene"))
+    }
+    
+    // play button selector
+    func play() {
+        mainMenuNode.visible = false
+        scoreLabel.visible = true
     }
     
     func setHighScore() {
