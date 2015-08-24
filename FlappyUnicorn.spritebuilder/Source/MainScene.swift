@@ -26,6 +26,7 @@ class MainScene: CCNode, CCPhysicsCollisionDelegate {
     var sinceTouch: CCTime = 0
     var gameOver: Bool = false
     var characterInScreen: Bool = true
+    var mainMenu: Bool = true
     var score: Int = 0 {
         didSet {
             animationManager.runAnimationsForSequenceNamed("ScoreIncreased")
@@ -38,6 +39,7 @@ class MainScene: CCNode, CCPhysicsCollisionDelegate {
     func didLoadFromCCB() {
         userInteractionEnabled = true
         gamePhysicsNode.collisionDelegate = self
+        setCharacterPhysicsProperties(false)
         loadObstacles(3)
     }
     
@@ -52,7 +54,7 @@ class MainScene: CCNode, CCPhysicsCollisionDelegate {
     
     // used to update the positions of the obstacles on the screen
     override func update(delta: CCTime) {
-        if !gameOver {
+        if !gameOver && !mainMenu{
             sinceTouch += delta
             
             character.position.x = 60
@@ -129,8 +131,11 @@ class MainScene: CCNode, CCPhysicsCollisionDelegate {
     func play() {
         mainMenuNode.visible = false
         scoreLabel.visible = true
+        setCharacterPhysicsProperties(true)
+        mainMenu = false
     }
     
+    // set high score
     func setHighScore() {
         var highscore = defaults.integerForKey("highscore")
         if score > highscore {
@@ -138,6 +143,11 @@ class MainScene: CCNode, CCPhysicsCollisionDelegate {
         }
         var newHighscore = NSUserDefaults.standardUserDefaults().integerForKey("highscore")
         bestScoreLabel.string = "\(newHighscore)"
+    }
+    
+    func setCharacterPhysicsProperties(trueOrFalse: Bool) {
+        character.physicsBody.affectedByGravity = trueOrFalse
+        character.physicsBody.allowsRotation = trueOrFalse
     }
     
     // collision handling functions

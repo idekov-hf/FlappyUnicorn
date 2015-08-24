@@ -3726,8 +3726,6 @@
 						</array>
 					</dict>
 				</array>
-				<key>selected</key>
-				<true/>
 			</dict>
 		</array>
 		<key>customClass</key>
@@ -3865,7 +3863,7 @@
 			<key>length</key>
 			<real>10</real>
 			<key>name</key>
-			<string>Default Timeline</string>
+			<string>Default</string>
 			<key>offset</key>
 			<real>0.0</real>
 			<key>position</key>
